@@ -1,5 +1,6 @@
 package org.devio.simple;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
@@ -36,16 +37,18 @@ import java.io.File;
  * Email:crazycodeboy@gmail.com
  */
 public class CustomHelper {
+    private Context context;
     private View rootView;
     private RadioGroup rgCrop, rgCompress, rgFrom, rgCropSize, rgCropTool, rgShowProgressBar, rgPickTool, rgCompressTool, rgCorrectTool,
         rgRawFile;
     private EditText etCropHeight, etCropWidth, etLimit, etSize, etHeightPx, etWidthPx;
 
-    public static CustomHelper of(View rootView) {
-        return new CustomHelper(rootView);
+    public static CustomHelper of(Context context, View rootView) {
+        return new CustomHelper(context, rootView);
     }
 
-    private CustomHelper(View rootView) {
+    private CustomHelper(Context context, View rootView) {
+        this.context = context;
         this.rootView = rootView;
         init();
     }
@@ -71,14 +74,20 @@ public class CustomHelper {
 
 
     }
-
-    public void onClick(View view, TakePhoto takePhoto) {
-        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
+    
+    private Uri getFileUri() {
+        File fileEx = context.getExternalFilesDir(null);
+        File file = new File(fileEx.getAbsolutePath() +"/temp/"+System.currentTimeMillis()+".jpg");
+//        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+//        if (!file.getParentFile().exists()) {
+//            file.getParentFile().mkdirs();
+//        }
         Uri imageUri = Uri.fromFile(file);
-
+        return imageUri  ;
+    }
+    
+    public void onClick(View view, TakePhoto takePhoto) {
+        Uri imageUri = getFileUri();
         configCompress(takePhoto);
         configTakePhotoOption(takePhoto);
         switch (view.getId()) {
