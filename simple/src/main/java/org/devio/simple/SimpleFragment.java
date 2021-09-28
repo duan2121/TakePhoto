@@ -47,7 +47,7 @@ public class SimpleFragment extends TakePhotoFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.common_layout, null);
-        customHelper = CustomHelper.of(view);
+        customHelper = CustomHelper.of(getContext(), view);
         return view;
     }
 
