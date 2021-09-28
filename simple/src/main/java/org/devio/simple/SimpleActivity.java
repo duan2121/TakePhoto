@@ -9,6 +9,7 @@ import org.devio.takephoto.app.TakePhotoActivity;
 import org.devio.takephoto.model.TImage;
 import org.devio.takephoto.model.TResult;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -40,7 +41,7 @@ public class SimpleActivity extends TakePhotoActivity {
         super.onCreate(savedInstanceState);
         View contentView = LayoutInflater.from(this).inflate(R.layout.common_layout, null);
         setContentView(contentView);
-        customHelper = CustomHelper.of(contentView);
+        customHelper = CustomHelper.of(this, contentView);
     }
 
     public void onClick(View view) {
